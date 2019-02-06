@@ -45,4 +45,4 @@ new Vue({
     }
 });
 
-//$('.carousel').bcSwipe({ threshold: 50 });
+$('.carousel').bcSwipe({ threshold: 50 });
