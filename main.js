@@ -1,7 +1,8 @@
 Vue.component(
     'my-carousel', {
         props: ['title'],
-        template: `<div :id="'carousel_' + title" class="carousel slide" data-ride="carousel">
+        template: `<div class="item">
+                        <div :id="'carousel_' + title" class="carousel slide" data-ride="carousel">
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active">
@@ -22,7 +23,8 @@ Vue.component(
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Next</span>
                             </a>
-                       </div>`,
+                       </div>
+                   </div>`,
     }
 );
 
@@ -34,15 +36,15 @@ new Vue({
             'lb',
             'scr',
             'cm',
-            'cc',
+            'cco',
             'sp',
             'f',
-            'hr',
+            'hrm',
             'mine',
             'sh',
-            'hrm',
+            'hoc',
         ]
     }
 });
 
-$('.carousel').bcSwipe({ threshold: 50 });
+$('.carousel').bcSwipe({threshold: 50});
