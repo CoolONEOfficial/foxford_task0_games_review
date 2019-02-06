@@ -1,5 +1,5 @@
 Vue.component(
-    'my-carousel', {
+    'my-card', {
         props: ['item'],
         template: `
 <div class="card">
