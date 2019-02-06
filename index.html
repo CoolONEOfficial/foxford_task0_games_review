@@ -29,11 +29,10 @@
 <div id="app">
     <div class="container">
         <div class="row">
-            <my-carousel v-for="item in items.slice(0, items.length / 2)" :key="item.key" :item="item"></my-carousel>
-        </div>
-        <div class="row">
-            <my-carousel v-for="item in items.slice(items.length / 2)" :key="item.key"
-                         :item="item"></my-carousel>
+            <div class="col" v-for="item in items.filter(i => i.key % 2 == 0)" :key="item.key">
+                <my-carousel :item="item"></my-carousel>
+                <my-carousel :item="items[item.key + 1]"></my-carousel>
+            </div>
         </div>
     </div>
 </div>
