@@ -27,7 +27,7 @@
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #d7d7d7;">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light " style="background-color: #d7d7d7;">
         <a class="navbar-brand" href="#">web-design-geeks</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +47,10 @@
             <img src="images/dislike.png" alt=""/>
         </div>
     </nav>
-    <h1>Топ 10 игр-тренажеров программирования для детей и родителей</h1>
-    <h1>Введение</h1>
     <div class="container">
+        <h1 class="display-3 text-left">Топ 10 игр-тренажеров<br/>программирования для<br/>детей и родителей</h1>
+        <h1 class="display-4">Введение</h1>
+        <p class="lead">{{ intro }}</p>
         <div class="row">
             <div :class="'col' + (index % 2 != 0 ? ' odd' : '')" v-for="(item, index) in items.filter(i => i.key % 2 == 0)" :key="item.key">
                 <my-card :item="item"></my-card>

@@ -57,3 +57,7 @@ h4{
 .odd .card {
     background: #f2f2f2;
 }
+
+.container {
+    margin-top: 200px;
+}
