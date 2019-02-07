@@ -11,8 +11,10 @@ h1 {
 
 p {
     text-align: center;
-    margin-bottom:60px;
+    margin-bottom: 60px;
 }
+
+
 
 h4{
     text-align:center;
@@ -24,7 +26,7 @@ h4{
 .card {
     display: inline-block;
     background: #d7d7d7;
-    margin: 0 0 8px 0;
+    margin: 0 0 12px 0;
     padding: 0 1em 1em 1em;
     width: 100%;
     -webkit-transition:1s ease all;
@@ -37,7 +39,6 @@ h4{
 .carousel-inner img {
     object-fit: cover;
     width: 200px;
-    height: 200px;
 }
 
 .card-title {
@@ -60,4 +61,12 @@ h4{
 
 .container {
     margin-top: 200px;
+}
+
+.my-section h1 {
+    margin-bottom: 30px;
+}
+
+.my-section p {
+    margin-bottom: 0;
 }
