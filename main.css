@@ -43,3 +43,13 @@ h4{
 .card-title {
     margin-bottom: 0;
 }
+
+.navbar img {
+    padding: 6px;
+    width: 40px;
+    height: 38px;
+}
+
+.odd {
+    padding: 16px 0 0 0;
+}
