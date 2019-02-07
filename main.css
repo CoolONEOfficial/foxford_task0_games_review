@@ -23,7 +23,7 @@ h4{
 
 .card {
     display: inline-block;
-    background: #fff;
+    background: #d7d7d7;
     margin: 0 0 8px 0;
     padding: 0 1em 1em 1em;
     width: 100%;
@@ -52,4 +52,8 @@ h4{
 
 .odd {
     padding: 16px 0 0 0;
+}
+
+.odd .card {
+    background: #f2f2f2;
 }
