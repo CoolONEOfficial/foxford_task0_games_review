@@ -70,3 +70,9 @@ h4{
 .my-section p {
     margin-bottom: 0;
 }
+
+#platform-icon {
+    padding: 6px;
+    width: 64px;
+    height: 64px;
+}
