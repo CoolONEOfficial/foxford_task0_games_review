@@ -25,21 +25,28 @@
 
     <title>Title</title>
 </head>
-<body>
+<body data-spy="scroll" data-target="#my-navbar">
 <div id="app">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light " style="background-color: #d7d7d7;">
+    <nav id="my-navbar" class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #d7d7d7;">
         <a class="navbar-brand" href="#">web-design-geeks</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="nav mr-auto nav-pills">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Введение</a>
+                    <a class="nav-link" href="#intro">Введение</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Список игр</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="true" aria-expanded="false">Игры</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item"
+                           v-for="item in items"
+                           :key="item.key"
+                           :href="'#section-' + item.prefix">{{ item.title }}</a>
+                    </div>
                 </li>
             </ul>
             <img src="images/share.png" alt=""/>
@@ -47,10 +54,15 @@
             <img src="images/dislike.png" alt=""/>
         </div>
     </nav>
+    <div id="intro" class="container one-screen">
+        <div class="row one-screen justify-content-center align-items-center">
+            <div class="col">
+                <h1 class="display-3 text-left">Топ 10 игр-тренажеров<br/>программирования для<br/>детей и родителей</h1>
+                <p class="lead mt-5 text-justify">{{ intro }}</p>
+            </div>
+        </div>
+    </div>
     <div class="container mb-5">
-        <h1 class="display-3 text-left">Топ 10 игр-тренажеров<br/>программирования для<br/>детей и родителей</h1>
-        <h1 class="display-4">Введение</h1>
-        <p class="lead">{{ intro }}</p>
         <div class="row">
             <div :class="'col' + (index % 2 != 0 ? ' odd' : '')"
                  v-for="(item, index) in items.filter(i => i.key % 2 == 0)"

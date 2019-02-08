@@ -2,12 +2,15 @@ Vue.component(
     'my-card', {
         props: ['item'],
         template: `
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">{{ item.title }}</h5>
+<a :href="'#section-' + item.prefix" class="custom-card">
+    <div class="card">
+        <div class="card-body">
+            <p class="lead card-title" style="text-decoration:none;">{{ item.title }}</p>
+        </div>
+        <img class="w-100" :src="'images/' + item.prefix + '_icon.png'" alt="">
     </div>
-    <img class="w-100" :src="'images/' + item.prefix + '_icon.png'" alt="">
-</div>`,
+</a>
+`,
     }
 );
 
@@ -15,29 +18,46 @@ Vue.component(
     'my-section', {
         props: ['item'],
         template: `
-<div class="my-section">
+<div class="my-section" :id="'section-' + item.prefix">
+    <hr/>
     <h1 class="display-4">{{ item.title }}</h1> 
     <div class="row">
         <div class="col-lg-6 col-md-12">
             <p class="lead text-justify">{{ item.description }}</p>
         </div>
-        <div class="col-lg-6 col-md-12 vh-100">
+        <div class="col-lg-6 col-md-12 vh-100 mt-md-3 mt-lg-0">
             <div :id="'carousel_' + item.prefix" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
-                <div :class="'carousel-item' + (i == 1 ? ' active' : '')" v-for="i in 4" :key="i">
-                    <img class="d-block w-100" :src="'images/' + item.prefix + i + '.jpg'" alt="">
+                    <div :class="'carousel-item' + (i == 1 ? ' active' : '')" v-for="i in 4" :key="i">
+                        <img class="d-block w-100" :src="'images/' + item.prefix + i + '.jpg'" alt="">
+                    </div>
                 </div>
-                </div>
-                <a v-show="!isMobile" class="carousel-control-prev" :href="'#carousel_' + item.prefix" role="button" data-slide="prev">
+                <a v-show="isMobile" class="carousel-control-prev" :href="'#carousel_' + item.prefix" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a v-show="!isMobile" class="carousel-control-next" :href="'#carousel_' + item.prefix" role="button" data-slide="next">
+                <a v-show="isMobile" class="carousel-control-next" :href="'#carousel_' + item.prefix" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <h1 class="display-4">Плюсы</h1>
+            <ul class="list-group">
+              <li class="list-group-item"
+                    v-for="pro in item.pros">{{ pro }}</li>
+            </ul>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <h1 class="display-4">Минусы</h1> 
+            <ul class="list-group">
+              <li class="list-group-item"
+                    v-for="con in item.cons">{{ con }}</li>
+            </ul>
         </div>
     </div>
     <div class="row justify-content-center">
@@ -47,22 +67,6 @@ Vue.component(
             <a :href="list[1]">
                 <img :src="list[0]" alt="">
             </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h1 class="display-4">Плюсы</h1>
-            <ul class="list-group">
-              <li class="list-group-item"
-                    v-for="pro in item.pros">{{ pro }}</li>
-            </ul>
-        </div>
-        <div class="col">
-            <h1 class="display-4">Минусы</h1> 
-            <ul class="list-group">
-              <li class="list-group-item"
-                    v-for="con in item.cons">{{ con }}</li>
-            </ul>
         </div>
     </div>
 </div>
