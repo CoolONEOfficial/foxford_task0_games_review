@@ -18,55 +18,63 @@ Vue.component(
     'my-section', {
         props: ['item'],
         template: `
-<div class="my-section" :id="'section-' + item.prefix">
-    <hr/>
-    <h1 class="display-4">{{ item.title }}</h1> 
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
-            <p class="lead text-justify">{{ item.description }}</p>
-        </div>
-        <div class="col-lg-6 col-md-12 vh-100 mt-md-3 mt-lg-0">
-            <div :id="'carousel_' + item.prefix" class="carousel slide" data-ride="carousel">
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox">
-                    <div :class="'carousel-item' + (i == 1 ? ' active' : '')" v-for="i in 4" :key="i">
-                        <img class="d-block w-100" :src="'images/' + item.prefix + i + '.jpg'" alt="">
-                    </div>
-                </div>
-                <a v-show="isMobile" class="carousel-control-prev" :href="'#carousel_' + item.prefix" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a v-show="isMobile" class="carousel-control-next" :href="'#carousel_' + item.prefix" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+<div class="one-screen my-section" :id="'section-' + item.prefix">   
+    <div :id="'carousel_' + item.prefix" class="carousel slide" data-ride="carousel">
+        <ul class="carousel-indicators">
+            <li v-for="i in 4"
+            :key="i - 1"
+            :data-target="'#carousel_' + item.prefix" 
+            :data-slide-to="i - 1" 
+            :class="i == 1 ? 'active' : ''"></li>
+        </ul>
+
+        <div class="carousel-inner">
+            <div :class="'carousel-item' + (i == 1 ? ' active' : '')" v-for="i in 4" :key="i">
+                <div class="imgOverlay" 
+                :style="'background: linear-gradient(to bottom, ' + (item.key > 0 ? '#000000 0%, ' : '' ) + '#00000088 10%, #00000088 90%, #000000);'"></div>
+                <img class="d-block one-screen" :src="'images/' + item.prefix + i + '.jpg'" alt="">
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
-            <h1 class="display-4">Плюсы</h1>
-            <ul class="list-group">
-              <li class="list-group-item"
-                    v-for="pro in item.pros">{{ pro }}</li>
-            </ul>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <h1 class="display-4">Минусы</h1> 
-            <ul class="list-group">
-              <li class="list-group-item"
-                    v-for="con in item.cons">{{ con }}</li>
-            </ul>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col text-center mt-3"
-        v-for="(list, key) in Array.from(item.platforms)"
-        :key="key">
-            <a :href="list[1]">
-                <img :src="list[0]" alt="">
-            </a>
+
+        <a class="carousel-control-prev" :href="'#carousel_' + item.prefix" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only"></span>
+        </a>
+        <a class="carousel-control-next" :href="'#carousel_' + item.prefix" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only"></span>
+        </a>
+
+        <div class="main-text">
+            <div class="container">
+                <h1 class="display-4">{{ item.title }}</h1> 
+                <p class="lead text-justify mb-3">{{ item.description }}</p>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <h1 class="display-4">Плюсы</h1>
+                        <ul class="list-group">
+                          <li class="list-group-item"
+                                v-for="pro in item.pros">{{ pro }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <h1 class="display-4">Минусы</h1> 
+                        <ul class="list-group">
+                          <li class="list-group-item"
+                                v-for="con in item.cons">{{ con }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col text-center mt-3"
+                    v-for="(list, key) in Array.from(item.platforms)"
+                    :key="key">
+                        <a :href="list[1]">
+                            <img :src="list[0]" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -91,17 +99,18 @@ Vue.component(
     }
 );
 
+const url = "https://img.icons8.com/windows/64/ffffff/";
+
 let platformsEnum = Object.freeze({
-    "android": "https://img.icons8.com/windows/64/000000/android-os.png",
-    "ios": "https://img.icons8.com/windows/64/000000/apple-app-store.png",
-    "macos": "https://img.icons8.com/windows/64/000000/mac-os.png",
-    "ubuntu": "https://img.icons8.com/windows/64/000000/ubuntu.png",
-    "linux": "https://img.icons8.com/windows/64/000000/linux.png",
-    "windows": "https://img.icons8.com/windows/64/000000/windows-10.png",
-    "playstation": "https://img.icons8.com/windows/64/000000/playstation.png",
-    "xbox": "https://img.icons8.com/windows/64/000000/xbox.png",
-    "n-switch": "https://img.icons8.com/windows/64/000000/nintendo.png",
-    "web": "https://img.icons8.com/windows/64/000000/internet.png",
+    "android": url + "android-os.png",
+    "ios": url + "apple-app-store.png",
+    "macos": url + "mac-os.png",
+    "ubuntu": url + "ubuntu.png",
+    "linux": url + "linux.png",
+    "windows": url + "windows-10.png",
+    "playstation": url + "playstation.png",
+    "xbox": url + "xbox.png",
+    "web": url + "internet.png",
 });
 
 new Vue({
@@ -309,7 +318,7 @@ new Vue({
                     "Развитие навыков программирования и возможность познания нового о языке для любого уровня",
                     "Рост  сложности головоломок после каждой пройденной задачи",
                     "Доступная цена (349 руб.)",
-                    "Возможен запуск в автономном режиме (без подключения к интернет-связи)",
+                    "Возможен запуск в автономном режиме",
                 ],
                 cons: [
                     "Нет поддержки русского языка",
@@ -338,5 +347,3 @@ new Vue({
         ]
     }
 });
-
-$('.carousel').bcSwipe({threshold: 50});
