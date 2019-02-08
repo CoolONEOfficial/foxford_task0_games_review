@@ -59,14 +59,33 @@ h4{
     background: #f2f2f2;
 }
 
-.container {
-    margin-top: 200px;
-}
-
 .my-section h1 {
     margin-bottom: 30px;
 }
 
 .my-section p {
     margin-bottom: 0;
+}
+
+.one-screen {
+    height: 100vh;
+    overflow: auto;
+}
+
+#platform-icon {
+    padding: 16px;
+    width: 64px;
+    height: 64px;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+a {
+    text-decoration:none;
+    color: black;
 }

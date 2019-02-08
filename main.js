@@ -2,12 +2,15 @@ Vue.component(
     'my-card', {
         props: ['item'],
         template: `
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">{{ item.title }}</h5>
+<a :href="'#section-' + item.prefix" class="custom-card">
+    <div class="card">
+        <div class="card-body">
+            <p class="lead card-title" style="text-decoration:none;">{{ item.title }}</p>
+        </div>
+        <img class="w-100" :src="'images/' + item.prefix + '_icon.png'" alt="">
     </div>
-    <img class="w-100" :src="'images/' + item.prefix + '_icon.jpg'" alt="">
-</div>`,
+</a>
+`,
     }
 );
 
@@ -15,68 +18,96 @@ Vue.component(
     'my-section', {
         props: ['item'],
         template: `
-<div class="my-section">
-    <div class="row">
-        <div class="col">
-            <h1 class="display-4">{{ item.title }}</h1>
-        </div>
-        <div class="col">
-            <i :class="'fab fa-' + key"
-            v-for="[key, val] in item.platforms"
-            :key="val"></i>
-        </div>
-    </div>
+<div class="my-section" :id="'section-' + item.prefix">
+    <hr/>
+    <h1 class="display-4">{{ item.title }}</h1> 
     <div class="row">
         <div class="col-lg-6 col-md-12">
             <p class="lead text-justify">{{ item.description }}</p>
         </div>
-        <div class="col-lg-6 col-md-12 vh-100">
+        <div class="col-lg-6 col-md-12 vh-100 mt-md-3 mt-lg-0">
             <div :id="'carousel_' + item.prefix" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
-                <div :class="'carousel-item' + (i == 1 ? ' active' : '')" v-for="i in 4" :key="i">
-                    <img class="d-block w-100" :src="'images/' + item.prefix + i + '.jpg'" alt="">
+                    <div :class="'carousel-item' + (i == 1 ? ' active' : '')" v-for="i in 4" :key="i">
+                        <img class="d-block w-100" :src="'images/' + item.prefix + i + '.jpg'" alt="">
+                    </div>
                 </div>
-                </div>
-                <a  class="carousel-control-prev" :href="'#carousel_' + item.prefix" role="button" data-slide="prev">
+                <a v-show="isMobile" class="carousel-control-prev" :href="'#carousel_' + item.prefix" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a  class="carousel-control-next" :href="'#carousel_' + item.prefix" role="button" data-slide="next">
+                <a v-show="isMobile" class="carousel-control-next" :href="'#carousel_' + item.prefix" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <h1 class="display-4">Плюсы</h1>
+            <ul class="list-group">
+              <li class="list-group-item"
+                    v-for="pro in item.pros">{{ pro }}</li>
+            </ul>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <h1 class="display-4">Минусы</h1> 
+            <ul class="list-group">
+              <li class="list-group-item"
+                    v-for="con in item.cons">{{ con }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col text-center mt-3"
+        v-for="(list, key) in Array.from(item.platforms)"
+        :key="key">
+            <a :href="list[1]">
+                <img :src="list[0]" alt="">
+            </a>
+        </div>
+    </div>
 </div>
 `,
         methods: {
             isMobile: function () {
-                let check = false;
-                (function (a) {
-                    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true;
-                })(navigator.userAgent || navigator.vendor || window.opera);
-                return check;
+                var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+                var mq = function (query) {
+                    return window.matchMedia(query).matches;
+                }
+
+                if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+                    return true;
+                }
+
+                // include the 'heartz' as a way to have a non matching MQ to help terminate the join
+                // https://git.io/vznFH
+                var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+                return mq(query);
             },
         }
     }
 );
 
+let platformsEnum = Object.freeze({
+    "android": "https://img.icons8.com/windows/64/000000/android-os.png",
+    "ios": "https://img.icons8.com/windows/64/000000/apple-app-store.png",
+    "macos": "https://img.icons8.com/windows/64/000000/mac-os.png",
+    "ubuntu": "https://img.icons8.com/windows/64/000000/ubuntu.png",
+    "linux": "https://img.icons8.com/windows/64/000000/linux.png",
+    "windows": "https://img.icons8.com/windows/64/000000/windows-10.png",
+    "playstation": "https://img.icons8.com/windows/64/000000/playstation.png",
+    "xbox": "https://img.icons8.com/windows/64/000000/xbox.png",
+    "n-switch": "https://img.icons8.com/windows/64/000000/nintendo.png",
+    "web": "https://img.icons8.com/windows/64/000000/internet.png",
+});
+
 new Vue({
     el: '#app',
     data: {
-        platformsEnum: Object.freeze({
-            "android": 1,
-            "ios": 2,
-            "pc": 3,
-            "macos": 4,
-            "linux": 5,
-            "windows": 6,
-            "xbox": 7,
-            "playstation": 8,
-            "nintendo-switch": 10,
-        }),
+        platformsEnum: platformsEnum,
         intro: 'Программирование - неотъемлемая часть современного мира.Его изучение актуально на сегодняшний день. С помощью программирования пишутся коды и создаются программы, новые технологии. В него входит информатика, математика и даже английский язык. Предлагаю Вам просмотреть список игр-тренажеров для изучения программирования. Найдите ту программу, с которой  Вам будет удобно и легко получать новые знания!',
         items: [
             {
@@ -86,12 +117,22 @@ new Vue({
                 description: 'Каждый мечтал управлять роботом. Новые технологии - наше будущее. Lightbot дает Вам эту возможность. В этой игре вы должны запрограммировать робота, чтобы тот прошел конкретную дистанцию и зажжег все свето-платформы. Игра довольно лёгкая и затягивающая. Lightbot  - самый увлекательный способ для детей  научиться основам программирования и понять его логику.',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.android, "#"],
-                        [data.platformsEnum.ios, "#"],
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.macos, "#"],
+                        [platformsEnum.android, "http://lightbot.com/redirect-android.html"],
+                        [platformsEnum.ios, "http://lightbot.com/redirect-ios.html"],
+                        [platformsEnum.windows, "http://lightbot.com/redirect-android.html"],
+                        [platformsEnum.web, "http://lightbot.com/"],
                     ]
                 ),
+                pros: [
+                    "Легкая и интересная подача основ программирования",
+                    "Справится каждый, от самых маленьких до самых больших",
+                    "В игре есть помощник, который понятно опишет каждую из функций",
+                    "Бесплатное приложение на всех поддерживаемых платформах",
+                ],
+                cons: [
+                    "В игре мало уровней, хотелось бы побольше.",
+                    "Играя в браузере, не сохраняется прогресс игры.",
+                ],
             },
             {
                 key: 1,
@@ -100,13 +141,24 @@ new Vue({
                 description: 'Scratch является понятным и доступным языком программирования для всех людей. В этой  программе можете научиться созданием  наброска собственных анимированных и интерактивных историй, игр и других проектов. Необязательно иметь опыт в этих сферах, достаточно иметь мотивацию и время. Творите, публикуйте, играйте!',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.android, "#"],
-                        [data.platformsEnum.ios, "#"],
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.macos, "#"],
-                        [data.platformsEnum.linux, "#"],
+                        [platformsEnum.android, "https://play.google.com/store/apps/details?id=org.scratchjr.android"],
+                        [platformsEnum.ios, "https://itunes.apple.com/ru/app/scratchjr/id895485086?mt=8"],
+                        [platformsEnum.windows, "https://downloads.scratch.mit.edu/desktop/Scratch%20Desktop%20Setup%201.2.1.exe"],
+                        [platformsEnum.macos, "https://downloads.scratch.mit.edu/desktop/Scratch%20Desktop-1.2.1.dmg"],
+                        [platformsEnum.ubuntu, "http://ubuntu.media.mit.edu/ubuntu//pool/universe/s/scratch/scratch_1.4.0.6~dfsg1-5~ubuntu12.04.1_all.deb"],
+                        [platformsEnum.web, "https://scratch.mit.edu/"],
                     ]
                 ),
+                pros: [
+                    "Scratch есть пособия для родителей и учителей",
+                    "Бесплатная программа для программирования на всех поддерживаемых платформах",
+                    "Предоставление огромного количества возможностей для выражения творческих потенциалов",
+                    "Есть возможность выкладывания своих работ, чтобы их могли видеть и оценивать",
+                ],
+                cons: [
+                    "Сложно программировать на мобильных устройствах",
+                    "Неполный перевод на русский язык",
+                ],
             },
             {
                 key: 2,
@@ -115,12 +167,21 @@ new Vue({
                 description: 'Занимательная видеоигра, где вы можете научиться без проблем основам программирования.  Решая интересные  головоломки, вы развиваете свое аналитическое мышление и приобретаете важный опыт для решения такого рода задач. Все просто: написать код, поймать бананы, спасти мир. Вы сможете сделать самостоятельно приложения и проверить свои способности. Всегда — учиться, все — знать! Удачи в познании новом!',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.android, "#"],
-                        [data.platformsEnum.ios, "#"],
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.macos, "#"],
+                        [platformsEnum.windows, "https://www.microsoft.com/ru-ru/p/codemonkey/9nj6xdlhcn7f"],
+                        [platformsEnum.web, "https://www.playcodemonkey.com/"],
                     ]
                 ),
+                pros: [
+                    "Эта игра находится на сайте, поэтому ей легко пользоваться",
+                    "Codemonkey доступен на 18 языках",
+                    "Вы можете стать учителем и преподавать уроки детям",
+                    "При недопонимании есть возможность обратиться в техподдержку",
+                    "Игра подходит для любого уровня знаний",
+                    "Есть тестовый период на 30 дней",
+                ],
+                cons: [
+                    "Codemonkey может наскучить, и захочется выполнять другие задачи."
+                ],
             },
             {
                 key: 3,
@@ -129,12 +190,19 @@ new Vue({
                 description: 'CodeCombat – это платформа для обучения нескольких языков программирования в игровой форме. Начиная работу в CodeCombat, Вы попадаете в магический мир и приобретаете способность колдовать, создавая код программы. С прохождением уровня Ваш персонаж будет получать необходимые вещи. При этом, чем качественней выполнена задача, тем лучше награда в конце. Собирайте самоцветы, побеждайте в схватках с врагами и станьте лучшим магом в программировании!',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.android, "#"],
-                        [data.platformsEnum.ios, "#"],
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.macos, "#"],
+                        [platformsEnum.web, "https://codecombat.com/"],
                     ]
                 ),
+                pros: [
+                    "Обучение в игровой форме, что позволяет не утрачивать  интерес к обучению",
+                    "Для изучения вам даются  языки Python и JavaScript",
+                    "Спокойное звуковое сопровождение и поддержка русского языка",
+                    "Есть тестовая версия"
+                ],
+                cons: [
+                    "Могут встречаться ошибки (редко)",
+                    "Цена подписки  - $3.99 в месяц или $39.99 навсегда (как для браузерной игры)",
+                ],
             },
             {
                 key: 4,
@@ -143,13 +211,19 @@ new Vue({
                 description: 'Swift Playgrounds – уникальное познавательное приложение от компании Apple. Ваша задача состоит в том, что  нужно запрограммировать существо на сбор кристаллов на языке программирования Swift или решить головоломку. Вы можете создать даже свою карту и пройти ее. Желаем Вам  в полном объеме насладиться результатом!',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.android, "#"],
-                        [data.platformsEnum.ios, "#"],
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.macos, "#"],
-                        [data.platformsEnum.linux, "#"],
+                        [platformsEnum.web, "https://www.apple.com/swift/playgrounds/"],
+                        [platformsEnum.macos, "https://itunes.apple.com/us/app/swift-playgrounds/id908519492?mt=8"],
                     ]
                 ),
+                pros: [
+                    "Получение навыков программирования Swift для новичков",
+                    "Качественный и приятный дизайн игры",
+                    "При затруднении, вы можете обратиться к  подсказкам и вспомогательным шаблонам",
+                ],
+                cons: [
+                    "По сравнению с конкурентами, в Swift Playground мало функционала",
+                    "Приложение поддерживает только устройства Apple",
+                ],
             },
             {
                 key: 5,
@@ -158,11 +232,22 @@ new Vue({
                 description: 'В этой увлекательной игре вы, космонавт, потерпели крушение и пытаетесь выжить на невиданной  планете, имеющей богатую фауну и флору. Основная цель игры - построить ракету и отправиться домой. Вы можете создавать разные конструкции для строительства, находить всевозможные ресурсы, управлять заводами, однако Вам будет мешать сама природа. Будьте внимательны, просчитывайте стратегию, и вы обязательно пройдете игру!',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.macos, "#"],
-                        [data.platformsEnum.linux, "#"],
+                        [platformsEnum.windows, "https://store.steampowered.com/app/427520/Factorio/"],
+                        [platformsEnum.web, "https://www.factorio.com/"],
                     ]
                 ),
+                pros: [
+                    "Оригинальное музыкальное сопровождение, плавные картинки, хорошая оптимизация игры, необычная графика",
+                    "Создание собственных промышленных объектов",
+                    "Развитие инженерно-технического мышления",
+                    "Решение логических задач",
+                    "Есть возможность приобрести демо-версию игры",
+                ],
+                cons: [
+                    "Платная игра - 520 руб. (+170 руб. - дополнительный контент)",
+                    "Новичкам поначалу трудно освоиться",
+                    "Игра требует много времени",
+                ],
             },
             {
                 key: 6,
@@ -171,9 +256,18 @@ new Vue({
                 description: 'Хотели ли Вы когда-нибудь взять контроль над группой офисных работников? Если да, то Human Resource Machine предоставит Вам эту возможность. Human Resource – это необычная и красочная игра в жанре инди – головоломки. Ничего сложного: решить задачу и перейти на новый уровень. Для этого вам нужно запрограммировать Ваших сотрудников на решение головоломки. Не бойтесь затруднений, в этой игре все сделано так, что разберется любой. Будьте хорошим руководителем и спасите свою работу, ведь машины грядут... чтобы лишить Вас имущества!',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.windows, "#"],
+                        [platformsEnum.windows, "https://store.steampowered.com/app/375820/Human_Resource_Machine/"],
                     ]
                 ),
+                pros: [
+                    "Веселое,  приятное звуковое сопровождение и красиво детализированные картинки",
+                    "Развивает конструктивное мышление и даёт понятие о программировании",
+                    "Поддерживает русский язык",
+                ],
+                cons: [
+                    "Игра требует много времени",
+                    "Могут быть ошибки в работе игры (редко)",
+                ],
             },
             {
                 key: 7,
@@ -182,21 +276,20 @@ new Vue({
                 description: 'Minecraft - компьютерная игра в жанре выживания в открытом море, в котором много опасностей. Книга Крэйга Ричардсона «Программируй с Minecraft» поможет Вам Научиться и узнать больше о языке программирования Python с помощью погружения в игру Minecraft. Вас ждет приключение и время проведения, полного веселья. Программируете, играйте и наслаждайтесь своим творением!',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.android, "#"],
-                        [data.platformsEnum.ios, "#"],
-                        [data.platformsEnum.wp, "#"],
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.macos, "#"],
-                        [data.platformsEnum.linux, "#"],
-                        [data.platformsEnum.xbox360, "#"],
-                        [data.platformsEnum.xboxone, "#"],
-                        [data.platformsEnum.ps3, "#"],
-                        [data.platformsEnum.ps4, "#"],
-                        [data.platformsEnum.psvita, "#"],
-                        [data.platformsEnum.nswitch, "#"],
-                        [data.platformsEnum.wiiu, "#"],
+                        [platformsEnum.web, "https://www.litres.ru/kreyg-richardson/programmiruem-s-minecraft-sozday-svoy-mir-s-pomoschu-python-25455725/"],
                     ]
                 ),
+                pros: [
+                    "Обучение языку python с помощью игры Minecraft",
+                    "Подробные пояснения нюансов",
+                    "Профессиональный перевод на русский язык",
+                    "Книга полезна не только детям, но и взрослым",
+                ],
+                cons: [
+                    "Стоимость (игры + книга) от 1900 руб.( за игру + 399 руб. )",
+                    "Тяжело найти книгу в бумажном варианте",
+                    "Электронная версия издана только в pdf формате",
+                ],
             },
             {
                 key: 8,
@@ -205,11 +298,23 @@ new Vue({
                 description: 'В такой замечательной и развивающей игре как SHENZHEN/IO вы можете побывать на месте рабочего в сфере программирования, работая на крупнейшую китайскую компанию по производству электроники. В вашем распоряжении все, что нужно для профессионального программиста. Вы будете решать интересные головоломки и продвигаться дальше. Основное решение задач  будет опираться на несложном, мощном языке ассемблера. Программируйте, начиная от плат, заканчивая ЖК-экранами. Вы всегда можете прочитать пособие, которое предоставляет Вам игра. Проявите творческий подход! \n',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.linux, "#"],
-                        [data.platformsEnum.macos, "#"],
+                        [platformsEnum.windows, "https://store.steampowered.com/app/504210/SHENZHEN_IO/"],
+                        [platformsEnum.linux, "https://store.steampowered.com/app/504210/SHENZHEN_IO/"],
+                        [platformsEnum.macos, "https://store.steampowered.com/app/504210/SHENZHEN_IO/"],
                     ]
                 ),
+                pros: [
+                    "Спокойное звуковое сопровождение, оригинальный подход к жанру головоломка и хорошая оптимизация игры для всех платформ",
+                    "Наличие пособия по игре и языку программирования ассемблера",
+                    "Развитие навыков программирования и возможность познания нового о языке для любого уровня",
+                    "Рост  сложности головоломок после каждой пройденной задачи",
+                    "Доступная цена (349 руб.)",
+                    "Возможен запуск в автономном режиме (без подключения к интернет-связи)",
+                ],
+                cons: [
+                    "Нет поддержки русского языка",
+                    "Для решения некоторых головоломок потребуется уделить большое количество времени",
+                ],
             },
             {
                 key: 9,
@@ -218,11 +323,17 @@ new Vue({
                 description: 'Hour of code предназначен для обучения программированию и информатики. Если Вы начнете работу в этом приложении, то приобретете много полезного в данных сферах. Вы можете учиться программировать, как и с тематикой "Star Wars", а может и "Minecraft", так и по теме мультфильма "Холодное Сердце".',
                 platforms: new Map(
                     [
-                        [data.platformsEnum.windows, "#"],
-                        [data.platformsEnum.linux, "#"],
-                        [data.platformsEnum.macos, "#"],
+                        [platformsEnum.web, "https://code.org/learn"],
                     ]
                 ),
+                pros: [
+                    "Обучение в игровой форме, что позволяет усвоить легче информацию",
+                    "Разнообразие тем для программирования",
+                    "Есть видео - пособия",
+                ],
+                cons: [
+                    "Неполный перевод на русский язык",
+                ],
             },
         ]
     }
