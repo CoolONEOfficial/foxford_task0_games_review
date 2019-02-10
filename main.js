@@ -84,6 +84,13 @@ Vue.component(
                 contentH: null,
             };
         },
+        mounted: function () {
+            this.updateContentSize();
+            window.addEventListener('resize', this.updateContentSize);
+        },
+        beforeDestroy: function () {
+            window.removeEventListener('resize', this.updateContentSize)
+        },
         methods: {
             isMobile: function () {
                 var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
@@ -121,19 +128,18 @@ Vue.component(
                 document.body.removeChild(el);
                 return curEnv;
             },
+            updateContentSize: function (event) {
+                console.log(this.$refs);
 
+                const origH = this.$refs['carousel-content-' + this.item.prefix].clientHeight + 280;
+                console.log("content h: " + origH);
+                const windowH = $(window).height() - 40;
+                console.log("w h: " + windowH);
+
+                this.contentH = Math.max(origH, windowH);
+                console.log(this.contentH);
+            }
         },
-        mounted: function () {
-            console.log(this.$refs);
-
-            const origH = this.$refs['carousel-content-' + this.item.prefix].clientHeight + 280;
-            console.log("content h: " + origH);
-            const windowH = $(window).height() - 40;
-            console.log("w h: " + windowH);
-
-            this.contentH = Math.max(origH, windowH);
-            console.log(this.contentH);
-        }
     }
 );
 
@@ -155,6 +161,7 @@ new Vue({
     el: '#app',
     data: {
         platformsEnum: platformsEnum,
+        title: 'Топ 10 игр-тренажеров программирования для детей и родителей',
         intro: 'Программирование - неотъемлемая часть современного мира.Его изучение актуально на сегодняшний день. С помощью программирования пишутся коды и создаются программы, новые технологии. В него входит информатика, математика и даже английский язык. Предлагаю Вам просмотреть список игр-тренажеров для изучения программирования. Найдите ту программу, с которой  Вам будет удобно и легко получать новые знания!',
         items: [
             {
