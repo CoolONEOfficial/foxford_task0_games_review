@@ -31,7 +31,7 @@ Vue.component(
         <div class="carousel-inner">
             <div :class="'carousel-item' + (i == 1 ? ' active' : '')" v-for="i in 4" :key="i">
                 <div class="imgOverlay"
-                :style="'background: linear-gradient(to bottom, ' + (item.key > 0 ? '#000000 0%, ' : '' ) + '#00000088 10%, #00000088 90%, #000000);'"></div>
+                :style="'background: linear-gradient(to bottom, #' + (item.key > 0 ? '000000' : 'f2f2f2' ) + ' 0%, #00000088 10%, #00000088 90%, #000000);'"></div>
                 <img class="d-block" :style="contentH != null ? { height: contentH + 'px' } : {}" :src="'images/' + item.prefix + i + '.jpg'" alt="">
             </div>
         </div>
@@ -129,17 +129,17 @@ Vue.component(
                 return curEnv;
             },
             updateContentSize: function (event) {
-                console.log(this.$refs);
+                // console.log(this.$refs);
 
                 const origH = this.$refs['carousel-content-' + this.item.prefix]
                         .clientHeight
                     + 220;
-                console.log("content h: " + origH);
+                // console.log("content h: " + origH);
                 const windowH = $(window).height() - 40;
-                console.log("w h: " + windowH);
+                // console.log("w h: " + windowH);
 
                 this.contentH = Math.max(origH, windowH);
-                console.log(this.contentH);
+                // console.log(this.contentH);
             }
         },
     }

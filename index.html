@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5c609e3983748d0011315591&product=inline-share-buttons' async='async'></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -23,6 +25,7 @@
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
 
     <title>Title</title>
 </head>
@@ -50,17 +53,23 @@
                     </div>
                 </li>
             </ul>
-            <img src="images/share.png" alt=""/>
-            <img src="images/like.png" alt=""/>
-            <img src="images/dislike.png" alt=""/>
+            <div class="sharethis-inline-share-buttons"></div>
+
+            <!--<img src="images/share.png" alt=""/>-->
+            <!--<img src="images/like.png" alt=""/>-->
+            <!--<img src="images/dislike.png" alt=""/>-->
         </div>
     </nav>
-    <div id="intro" class="container one-screen-with-header">
-        <div class="row one-screen-with-header justify-content-center align-items-center">
-            <div class="col">
+    <div id="intro" class="container">
+        <div class="row justify-content-center align-items-center" style="height: 100vh;">
+            <div class="col mt-auto">
                 <h1 class="display-3 text-left d-none d-lg-block">{{ title }}</h1>
                 <h1 class="display-5 text-left d-lg-none">{{ title }}</h1>
                 <p class="lead mt-5 text-justify">{{ intro }}</p>
+            </div>
+            <div class="w-100"></div>
+            <div class="col">
+                <i class="fa fa-lg fa-chevron-up w-100" style="text-align: center;"></i>
             </div>
         </div>
     </div>

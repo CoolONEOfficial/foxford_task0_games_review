@@ -70,14 +70,6 @@ h4{
     margin-bottom: 0;
 }
 
-.one-screen-with-header {
-    min-height: 100vh;
-}
-
-.one-screen {
-    min-height: 100vh;
-}
-
 #platform-icon {
     padding: 16px;
     width: 64px;
