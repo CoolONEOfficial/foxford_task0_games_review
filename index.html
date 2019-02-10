@@ -54,10 +54,6 @@
                 </li>
             </ul>
             <div class="sharethis-inline-share-buttons"></div>
-
-            <!--<img src="images/share.png" alt=""/>-->
-            <!--<img src="images/like.png" alt=""/>-->
-            <!--<img src="images/dislike.png" alt=""/>-->
         </div>
     </nav>
     <div id="intro" class="container">
@@ -74,13 +70,11 @@
         </div>
     </div>
     <div class="container">
-        <div class="row">
-            <div :class="'col' + (index % 2 != 0 ? ' odd' : '')"
-                 v-for="(item, index) in items.filter(i => i.key % 2 == 0)"
-                 :key="item.key">
-                <my-card :item="item"></my-card>
-                <my-card :item="items[item.key + 1]"></my-card>
-            </div>
+        <div class="d-none d-lg-block">
+            <my-card-row count="2" :items="items"></my-card-row>
+        </div>
+        <div class="d-lg-none">
+            <my-card-row count="5" :items="items"></my-card-row>
         </div>
     </div>
     <my-section v-for="item in items" :key="item.key" :item="item"></my-section>

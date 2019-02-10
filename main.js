@@ -1,4 +1,22 @@
 Vue.component(
+    'my-card-row', {
+        props: ['items', 'count'],
+        template: `
+<div class="row">
+    <div :class="'col' + (index % 2 != 0 ? ' odd' : '')"
+         v-for="(item, index) in items.filter(i => i.key % count == 0)"
+         :key="index">
+        <my-card 
+            v-for="mCount in parseInt(count)" 
+            :key="mCount" 
+            :item="items[item.key + mCount - 1]"></my-card>
+    </div>
+</div>
+`,
+    }
+);
+
+Vue.component(
     'my-card', {
         props: ['item'],
         template: `
