@@ -18,46 +18,46 @@ Vue.component(
     'my-section', {
         props: ['item'],
         template: `
-<div class="one-screen my-section" :id="'section-' + item.prefix">   
-    <div :id="'carousel_' + item.prefix" class="carousel slide" data-ride="carousel">
+<div :class="'my-section'" :id="'section-' + item.prefix" :style="contentH != null ? { height: contentH + 'px' } : {}">   
+    <div :id="'carousel-' + item.prefix" class="carousel slide" data-ride="carousel">
         <ul class="carousel-indicators">
             <li v-for="i in 4"
             :key="i - 1"
-            :data-target="'#carousel_' + item.prefix" 
+            :data-target="'#carousel-' + item.prefix" 
             :data-slide-to="i - 1" 
             :class="i == 1 ? 'active' : ''"></li>
         </ul>
 
         <div class="carousel-inner">
             <div :class="'carousel-item' + (i == 1 ? ' active' : '')" v-for="i in 4" :key="i">
-                <div class="imgOverlay" 
+                <div class="imgOverlay"
                 :style="'background: linear-gradient(to bottom, ' + (item.key > 0 ? '#000000 0%, ' : '' ) + '#00000088 10%, #00000088 90%, #000000);'"></div>
-                <img class="d-block one-screen" :src="'images/' + item.prefix + i + '.jpg'" alt="">
+                <img class="d-block" :style="contentH != null ? { height: contentH + 'px' } : {}" :src="'images/' + item.prefix + i + '.jpg'" alt="">
             </div>
         </div>
 
-        <a class="carousel-control-prev" :href="'#carousel_' + item.prefix" role="button" data-slide="prev">
+        <a class="carousel-control-prev" :href="'#carousel-' + item.prefix" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only"></span>
         </a>
-        <a class="carousel-control-next" :href="'#carousel_' + item.prefix" role="button" data-slide="next">
+        <a class="carousel-control-next" :href="'#carousel-' + item.prefix" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only"></span>
         </a>
 
         <div class="main-text">
-            <div class="container">
+            <div class="container" :ref="'carousel-content-' + item.prefix">
                 <h1 class="display-4">{{ item.title }}</h1> 
                 <p class="lead text-justify mb-3">{{ item.description }}</p>
                 <div class="row mb-3">
-                    <div class="col-6">
+                    <div class="col-lg-6 col-md-12">
                         <h1 class="display-4">Плюсы</h1>
                         <ul class="list-group">
                           <li class="list-group-item"
                                 v-for="pro in item.pros">{{ pro }}</li>
                         </ul>
                     </div>
-                    <div class="col-6">
+                    <div class="col-lg-6 col-md-12">
                         <h1 class="display-4">Минусы</h1> 
                         <ul class="list-group">
                           <li class="list-group-item"
@@ -79,6 +79,11 @@ Vue.component(
     </div>
 </div>
 `,
+        data: function () {
+            return {
+                contentH: null,
+            };
+        },
         methods: {
             isMobile: function () {
                 var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
@@ -95,6 +100,39 @@ Vue.component(
                 var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
                 return mq(query);
             },
+            bootstrapEnv: function () {
+                let envs = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+                let el = document.createElement('div');
+                document.body.appendChild(el);
+
+                envs.shift();
+                let curEnv = 0;
+
+                for (let [index, env] of envs.reverse().entries()) {
+                    el.classList.add(`d-${env}-none`);
+
+                    if (window.getComputedStyle(el).display === 'none') {
+                        curEnv = index;
+                        break;
+                    }
+                }
+
+                document.body.removeChild(el);
+                return curEnv;
+            },
+
+        },
+        mounted: function () {
+            console.log(this.$refs);
+
+            const origH = this.$refs['carousel-content-' + this.item.prefix].clientHeight + 280;
+            console.log("content h: " + origH);
+            const windowH = $(window).height() - 40;
+            console.log("w h: " + windowH);
+
+            this.contentH = Math.max(origH, windowH);
+            console.log(this.contentH);
         }
     }
 );
