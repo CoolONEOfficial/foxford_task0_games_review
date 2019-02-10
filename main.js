@@ -50,14 +50,14 @@ Vue.component(
                 <h1 class="display-4">{{ item.title }}</h1> 
                 <p class="lead text-justify mb-3">{{ item.description }}</p>
                 <div class="row mb-3">
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12 mt-3">
                         <h1 class="display-4">Плюсы</h1>
                         <ul class="list-group">
                           <li class="list-group-item"
                                 v-for="pro in item.pros">{{ pro }}</li>
                         </ul>
                     </div>
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12 mt-3">
                         <h1 class="display-4">Минусы</h1> 
                         <ul class="list-group">
                           <li class="list-group-item"
@@ -85,8 +85,8 @@ Vue.component(
             };
         },
         mounted: function () {
-            this.updateContentSize();
             window.addEventListener('resize', this.updateContentSize);
+            window.dispatchEvent(new Event('resize'));
         },
         beforeDestroy: function () {
             window.removeEventListener('resize', this.updateContentSize)
@@ -131,7 +131,9 @@ Vue.component(
             updateContentSize: function (event) {
                 console.log(this.$refs);
 
-                const origH = this.$refs['carousel-content-' + this.item.prefix].clientHeight + 280;
+                const origH = this.$refs['carousel-content-' + this.item.prefix]
+                        .clientHeight
+                    + 220;
                 console.log("content h: " + origH);
                 const windowH = $(window).height() - 40;
                 console.log("w h: " + windowH);
