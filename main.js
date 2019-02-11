@@ -1,3 +1,9 @@
+const scrollTo = function(toId) {
+    $('html, body').animate({
+        scrollTop: $(toId).offset().top
+    }, 1000);
+};
+
 Vue.component(
     'my-card-row', {
         props: ['items', 'count'],
@@ -20,7 +26,7 @@ Vue.component(
     'my-card', {
         props: ['item'],
         template: `
-<a :href="'#section-' + item.prefix" class="custom-card">
+<a @click="scrollTo('#section-' + item.prefix)" class="custom-card clickable">
     <div class="card">
         <div class="card-body">
             <p class="lead card-title" style="text-decoration:none;">{{ item.title }}</p>
@@ -29,14 +35,17 @@ Vue.component(
     </div>
 </a>
 `,
-    }
+        methods: {
+            scrollTo: scrollTo,
+        }
+    },
 );
 
 Vue.component(
     'my-section', {
         props: ['item'],
         template: `
-<div :class="'my-section'" :id="'section-' + item.prefix" :style="contentH != null ? { height: contentH + 'px' } : {}">   
+<div class="my-section" :id="'section-' + item.prefix" :style="contentH != null ? { height: contentH + 'px' } : {}">   
     <div :id="'carousel-' + item.prefix" class="carousel slide" data-ride="carousel">
         <ul class="carousel-indicators">
             <li v-for="i in 4"
@@ -153,7 +162,7 @@ Vue.component(
                         .clientHeight
                     + 220;
                 // console.log("content h: " + origH);
-                const windowH = $(window).height() - 40;
+                const windowH = $(window).height() - 56;
                 // console.log("w h: " + windowH);
 
                 this.contentH = Math.max(origH, windowH);
@@ -179,6 +188,9 @@ let platformsEnum = Object.freeze({
 
 new Vue({
     el: '#app',
+    methods: {
+        scrollTo: scrollTo,
+    },
     data: {
         platformsEnum: platformsEnum,
         title: 'Топ 10 игр-тренажеров программирования для детей и родителей',
