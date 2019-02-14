@@ -85,6 +85,18 @@
         </div>
     </div>
     <my-section v-for="item in items" :key="item.key" :item="item"></my-section>
+    <footer class="page-footer font-small blue pt-4" style="background: black;">
+        <div class="container-fluid text-center">
+            <div class="col" style="margin-left:auto;
+   margin-right:auto;">
+                <p class="lead mt-5 text-center d-none d-lg-block" style="color: white;">Понравился сайт? Поделись им в социальных сетях!</p>
+                <p class="lead mt-3 text-center d-lg-none" style="color: white;"><small>Понравился сайт? Поделись им в социальных сетях!</small></p>
+                <div class="pluso" data-background="transparent" data-options="big,square,line,horizontal,nocounter,theme=04" data-services="vkontakte,twitter,facebook,bookmark"></div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3" style="color: white;">© 2019 Copyright: web-design-geeks
+        </div>
+    </footer>
 </div>
 <script src="main.js"></script>
 <!-- Pluso buttons -->
